@@ -1,0 +1,25 @@
+services:
+
+  clientes:
+    build: ./clientes
+    container_name: ms-clientes
+    ports:
+      - "8001:8000"
+    networks:
+      - ms-network
+
+  pedidos:
+    build: ./pedidos
+    container_name: ms-pedidos
+    ports:
+      - "8000:8000"
+    depends_on:
+      - clientes
+    environment:
+      - CLIENTES_URL=http://clientes:8000
+    networks:
+      - ms-network
+
+networks:
+  ms-network:
+    driver: bridge
